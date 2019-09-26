@@ -12,6 +12,12 @@
 
         }
 
+        .box {
+            width: 500px;
+            margin: 0 auto;
+            margin-top: 60px;
+        }
+
         .input {
             width: 500px;
             height: 40px;
@@ -50,12 +56,10 @@
 <script>
 
 
-    // const $container = document.createElement('div');
-    // $container.classList.add('container');
-    // document.body.prepend($container);
-    // const $select = document.createElement('select');
-    //
-    // $container.append($select);
+    const $container = document.createElement('div');
+    $container.classList.add('container');
+    document.body.prepend($container);
+
     // const $input = document.createElement('input');
     // $input.setAttribute('type', 'text');
     // $input.classList.add('input');
@@ -69,33 +73,176 @@
     // $ul.classList.add('toDo');
     // document.body.append($ul);
 
+    const $select = document.createElement('select');
+    $container.append($select);
+    const $button = document.createElement('button');
+    $button.setAttribute('type', 'button');
+    $button.classList.add('btn');
+    $button.innerText = 'Get Info';
+    $container.append($button);
+
+    const getBtn = document.querySelector('.btn');
+    console.log(getBtn);
+
+    function createListFilms() {
+        const $boxFilms = document.createElement('div');
+        $boxFilms.classList.add('box');
+        document.body.append($boxFilms);
+        const $selectFilms = document.createElement('select');
+        $selectFilms.classList.add('selectFilms')
+        $boxFilms.append($selectFilms);
+
+    }
+
+    function bind(obj) {
+        let getSelect = obj.querySelector('.selectFilms')
+
+    }
+    const $boxFilms = document.createElement('div');
+    $boxFilms.classList.add('box');
+    document.body.append($boxFilms);
+    const $selectFilms = document.createElement('select');
+    $selectFilms.classList.add('selectFilms');
+    $boxFilms.append($selectFilms);
+
+    function getFilms(obj) {
+
+        const oneFilm = document.createElement('option');
+        $selectFilms.append(oneFilm);
+        oneFilm.innerText = obj.title;
+
+    }
+
+
+
+
+
+    function addOption(obj) {
+
+        const option = document.createElement('option');
+        $select.append(option);
+        option.innerText = obj.name;
+
+    }
+
+
     let xhr1 = new XMLHttpRequest;
     xhr1.open('get', 'https://swapi.co/api/starships/2/', true);
     xhr1.send();
     xhr1.onload = function () {
         // const shipName = JSON.parse(this.response.name);
         const ship = JSON.parse(this.response);
-        console.log(ship.name);
-        console.log(ship);
+        let b = ship.films;
+        console.log(b);
+        addOption(ship);
 
-        const xhr = new XMLHttpRequest();
-        xhr.open('get', ship.films, true);
-        xhr.send();
+        const film1 = new XMLHttpRequest();
+        film1.open('get', 'https://swapi.co/api/films/6/', true);
+        film1.send();
 
-        xhr.onload = function () {
-            const film = JSON.parse(this.response.title);
-            console.log(film);
+        film1.onload = function () {
+            const film = JSON.parse(this.response);
+            // console.log(film)
+            getFilms(film);
+        };
+        const film2 = new XMLHttpRequest();
+        film2.open('get', 'https://swapi.co/api/films/3/', true);
+        film2.send();
+
+        film2.onload = function () {
+            const film = JSON.parse(this.response);
+            // console.log(film)
+            getFilms(film);
+        };
+
+        const film3 = new XMLHttpRequest();
+        film3.open('get', 'https://swapi.co/api/films/1/', true);
+        film3.send();
+
+        film3.onload = function () {
+            const film = JSON.parse(this.response);
+            // console.log(film)
+            getFilms(film);
         }
+
+
     };
 
-    let xhr2 = new XMLHttpRequest;
-    xhr2.open('get', '"https://swapi.co/api/starships/22/', true);
-    xhr2.send();
-    xhr2.onload = function () {
-        const ship = JSON.parse(this.response);
-        console.log(ship);
+    // let xhr2 = new XMLHttpRequest;
+    // xhr2.open('get', 'https://swapi.co/api/starships/22/', true);
+    // xhr2.send();
+    // xhr2.onload = function () {
+    //     const ship = JSON.parse(this.response);
+    //     // console.log(ship);
+    //     addOption(ship);
+    //
+    //     const xhr = new XMLHttpRequest;
+    //     xhr.open('get', ship.films, true);
+    //     xhr.send();
+    //
+    //     xhr.onload = function () {
+    //         const films = JSON.parse(this.response);
+    //         // console.log(films);
+    //
+    //     }
+    // };
+    //
+    // let xhr3 = new XMLHttpRequest;
+    // xhr3.open('get', 'https://swapi.co/api/starships/12/', true);
+    // xhr3.send();
+    // xhr3.onload = function () {
+    //     const ship = JSON.parse(this.response);
+    //
+    //     addOption(ship);
+    //
+    //     const xhr = new XMLHttpRequest;
+    //     xhr.open('get', ship.films, true);
+    //     xhr.send();
+    //
+    //     xhr.onload = function () {
+    //         const films = JSON.parse(this.response);
+    //         // console.log(films);
+    //     }
+    // };
+    //
+    // let xhr4 = new XMLHttpRequest;
+    // xhr4.open('get', 'https://swapi.co/api/starships/48/', true);
+    // xhr4.send();
+    //
+    // xhr4.onload = function () {
+    //     const ship = JSON.parse(this.response);
+    //     addOption(ship);
+    //
+    //     const xhr = new XMLHttpRequest;
+    //     xhr.open('get', ship.films, true);
+    //     xhr.send();
+    //     xhr.onload = function () {
+    //         const films = JSON.parse(this.response);
+    //
+    //     }
+    // };
+    //
+    // let xhr5 = new XMLHttpRequest;
+    // xhr5.open('get', 'https://swapi.co/api/starships/59/', true);
+    // xhr5.send();
+    //
+    // xhr5.onload = function () {
+    //     const ship = JSON.parse(this.response);
+    //     addOption(ship);
+    //     let a = ship.films;
+    //     console.log(a);
+    //
+    //     const xhr = new XMLHttpRequest;
+    //     xhr.open('get', ship.films, true);
+    //     xhr.send();
+    //
+    //     xhr.onload = function () {
+    //         const films = JSON.parse(this.response);
+    //
+    //     }
+    //
+    // }
 
-    }
 
 
 </script>
