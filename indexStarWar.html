@@ -60,19 +60,6 @@
     $container.classList.add('container');
     document.body.prepend($container);
 
-    // const $input = document.createElement('input');
-    // $input.setAttribute('type', 'text');
-    // $input.classList.add('input');
-    // $form.append($input);
-    // const $button = document.createElement('button');
-    // $button.setAttribute('type', 'button');
-    // $button.classList.add('btn');
-    // $button.innerText = 'Get Info';
-    // $container.append($button);
-    // const $ul = document.createElement('ul');
-    // $ul.classList.add('toDo');
-    // document.body.append($ul);
-
     const $select = document.createElement('select');
     $select.classList.add('nameShips');
     $container.append($select);
@@ -83,7 +70,6 @@
     $container.append($button);
 
     const getBtn = document.querySelector('.btn');
-    console.log(getBtn);
     const nameShips = document.querySelector('.nameShips');
 
 
@@ -121,8 +107,8 @@
 
     console.log(arrFilms);
 
-    let arr = [];
-    console.log(arr);
+    // let arr = [];
+    // console.log(arr);
     function getNameFilm(obj) {
 
             let nameFilms = obj.title;
@@ -136,12 +122,12 @@
         const option = document.createElement('option');
         $select.append(option);
         option.innerText = obj.name;
-        let ships = ({
-            name:obj.name,
-            title:arrFilms
-
-        });
-        arr.push(ships)
+        // let ships = ({
+        //     name:obj.name,
+        //     title:getNameFilm(obj)
+        //
+        // });
+        // arr.push(ships)
 
 
     }
