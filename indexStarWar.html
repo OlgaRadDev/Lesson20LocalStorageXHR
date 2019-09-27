@@ -74,6 +74,7 @@
     // document.body.append($ul);
 
     const $select = document.createElement('select');
+    $select.classList.add('nameShips');
     $container.append($select);
     const $button = document.createElement('button');
     $button.setAttribute('type', 'button');
@@ -83,22 +84,23 @@
 
     const getBtn = document.querySelector('.btn');
     console.log(getBtn);
+    const nameShips = document.querySelector('.nameShips');
 
 
-    function bind(obj) {
-        let getSelect = obj.querySelector('.selectFilms');
-        getSelect.addEventListener('click' );
-
-    }
-
-   let sel = function createListFilms() {
+    function createListFilms() {
         const $boxFilms = document.createElement('div');
         $boxFilms.classList.add('box');
         document.body.append($boxFilms);
         const $selectFilms = document.createElement('select');
         $selectFilms.classList.add('selectFilms');
         $boxFilms.append($selectFilms);
-        bind($boxFilms);
+        arrFilms.forEach(item =>{
+            const oneFilm = document.createElement('option');
+            oneFilm.innerText = item;
+            $selectFilms.append(oneFilm);
+        });
+
+
 
         // $selectFilms.append(opt());
         // console.log($selectFilms);
@@ -109,32 +111,38 @@
        //     return getSelect;
        //
        // }
-    };
+    }
 
-
+    // const oneFilm = document.createElement('option');
     // function createOption () {
     //
     // }
-    function getFilms() {
+    let arrFilms = [];
 
-        let choose = function opt(obj) {
-            const oneFilm = document.createElement('option');
-            oneFilm.innerText = obj.title;
-        };
-        return choose;
+    console.log(arrFilms);
+
+    let arr = [];
+    console.log(arr);
+    function getNameFilm(obj) {
+
+            let nameFilms = obj.title;
+            arrFilms.push(nameFilms);
+        }
 
 
-        // console.log(oneFilm);
-        // document.body.append(oneFilm);
 
-    }
-    let u =
-
-    function addOption(obj) {
+    function addNameShip(obj) {
 
         const option = document.createElement('option');
         $select.append(option);
         option.innerText = obj.name;
+        let ships = ({
+            name:obj.name,
+            title:arrFilms
+
+        });
+        arr.push(ships)
+
 
     }
 
@@ -147,7 +155,7 @@
         const ship = JSON.parse(this.response);
         // let b = ship.films;
         // console.log(b);
-        addOption(ship);
+        addNameShip(ship);
 
 
         const film1 = new XMLHttpRequest();
@@ -156,7 +164,7 @@
 
         film1.onload = function () {
             const film = JSON.parse(this.response);
-            getFilms(film);
+            getNameFilm(film);
 
         };
         const film2 = new XMLHttpRequest();
@@ -166,7 +174,7 @@
         film2.onload = function () {
             const film = JSON.parse(this.response);
 
-            getFilms(film);
+            getNameFilm(film);
 
 
         };
@@ -178,88 +186,103 @@
         film3.onload = function () {
             const film = JSON.parse(this.response);
             // console.log(film)
-            getFilms(film);
+            getNameFilm(film);
         };
 
-        getBtn.addEventListener('click', sel);
+            getBtn.addEventListener('click', createListFilms);
+
 
 
     };
 
-    // let xhr2 = new XMLHttpRequest;
-    // xhr2.open('get', 'https://swapi.co/api/starships/22/', true);
-    // xhr2.send();
-    // xhr2.onload = function () {
-    //     const ship = JSON.parse(this.response);
-    //     // console.log(ship);
-    //     addOption(ship);
-    //
-    //     const xhr = new XMLHttpRequest;
-    //     xhr.open('get', ship.films, true);
-    //     xhr.send();
-    //
-    //     xhr.onload = function () {
-    //         const films = JSON.parse(this.response);
-    //         // console.log(films);
-    //
-    //     }
-    // };
-    //
-    // let xhr3 = new XMLHttpRequest;
-    // xhr3.open('get', 'https://swapi.co/api/starships/12/', true);
-    // xhr3.send();
-    // xhr3.onload = function () {
-    //     const ship = JSON.parse(this.response);
-    //
-    //     addOption(ship);
-    //
-    //     const xhr = new XMLHttpRequest;
-    //     xhr.open('get', ship.films, true);
-    //     xhr.send();
-    //
-    //     xhr.onload = function () {
-    //         const films = JSON.parse(this.response);
-    //         // console.log(films);
-    //     }
-    // };
-    //
-    // let xhr4 = new XMLHttpRequest;
-    // xhr4.open('get', 'https://swapi.co/api/starships/48/', true);
-    // xhr4.send();
-    //
-    // xhr4.onload = function () {
-    //     const ship = JSON.parse(this.response);
-    //     addOption(ship);
-    //
-    //     const xhr = new XMLHttpRequest;
-    //     xhr.open('get', ship.films, true);
-    //     xhr.send();
-    //     xhr.onload = function () {
-    //         const films = JSON.parse(this.response);
-    //
-    //     }
-    // };
-    //
-    // let xhr5 = new XMLHttpRequest;
-    // xhr5.open('get', 'https://swapi.co/api/starships/59/', true);
-    // xhr5.send();
-    //
-    // xhr5.onload = function () {
-    //     const ship = JSON.parse(this.response);
-    //     addOption(ship);
-    //     let a = ship.films;
-    //     console.log(a);
-    //
-    //     const xhr = new XMLHttpRequest;
-    //     xhr.open('get', ship.films, true);
-    //     xhr.send();
-    //
-    //     xhr.onload = function () {
-    //         const films = JSON.parse(this.response);
-    //
-    //     }
-    //
-    // }
+
+    let xhr2 = new XMLHttpRequest;
+    xhr2.open('get', 'https://swapi.co/api/starships/22/', true);
+    xhr2.send();
+    xhr2.onload = function () {
+        const ship = JSON.parse(this.response);
+        // console.log(ship.films);
+        addNameShip(ship);
+
+        const film1 = new XMLHttpRequest;
+        film1.open('get', 'https://swapi.co/api/films/2/', true);
+        film1.send();
+
+        film1.onload = function () {
+            const film = JSON.parse(this.response);
+            getNameFilm(film);
+        };
+
+        const film2 = new XMLHttpRequest;
+        film2.open('get', 'https://swapi.co/api/films/3/', true);
+        film2.send();
+
+        film2.onload = function () {
+            const film = JSON.parse(this.response);
+            getNameFilm(film);
+        };
+
+        getBtn.addEventListener('click', createListFilms);
+
+
+    };
+
+    let xhr3 = new XMLHttpRequest;
+    xhr3.open('get', 'https://swapi.co/api/starships/12/', true);
+    xhr3.send();
+    xhr3.onload = function () {
+        const ship = JSON.parse(this.response);
+        console.log(ship.films);
+
+        addNameShip(ship);
+
+        const xhr = new XMLHttpRequest;
+        xhr.open('get', ship.films, true);
+        xhr.send();
+
+        xhr.onload = function () {
+            const films = JSON.parse(this.response);
+            // console.log(films);
+        }
+    };
+
+    let xhr4 = new XMLHttpRequest;
+    xhr4.open('get', 'https://swapi.co/api/starships/48/', true);
+    xhr4.send();
+
+    xhr4.onload = function () {
+        const ship = JSON.parse(this.response);
+        addOption(ship);
+
+        const xhr = new XMLHttpRequest;
+        xhr.open('get', ship.films, true);
+        xhr.send();
+        xhr.onload = function () {
+            const films = JSON.parse(this.response);
+
+        }
+    };
+
+    let xhr5 = new XMLHttpRequest;
+    xhr5.open('get', 'https://swapi.co/api/starships/59/', true);
+    xhr5.send();
+
+    xhr5.onload = function () {
+        const ship = JSON.parse(this.response);
+        addOption(ship);
+        let a = ship.films;
+        console.log(a);
+
+        const xhr = new XMLHttpRequest;
+        xhr.open('get', ship.films, true);
+        xhr.send();
+
+        xhr.onload = function () {
+            const films = JSON.parse(this.response);
+
+        }
+
+    }
 
 
 
