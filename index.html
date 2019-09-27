@@ -125,6 +125,21 @@
         return $note;
     };
 
+    // function event() {
+        $toDo.addEventListener('click', e=>{
+            console.log(e)
+            if (e.target.className === 'delete') {
+                removeNote();
+
+            } else if (e.target.className === 'edit') {
+                editNote();
+            } else if (e.target.className === 'done') {
+                isDoneNote();
+            }
+            }
+        );
+    // }
+
 
     const keyObj = 'todo';
     const savedItems = localStorage.getItem(keyObj);
@@ -193,22 +208,27 @@
         let ask = confirm('Delete note?');
         if (ask) {
             let li = this.parentNode;
-            let idLi = li.dataset.id;
+            console.dir(li);
+            let idLi = li.dataset;
             let ul = li.parentNode;
 
             ul.removeChild(li);
+
+
+
             deleteNote(idLi);
         }
+        localStr();
     }
 
     function deleteNote(id) {
-        let noteIndex = listToDo.findIndex(function (note) {
-            if (note.id === id) {
-                return note
-            }
-        });
-        listToDo.splice(noteIndex, 1);
-        return listToDo;
+    let noteIndex = listToDo.findIndex(function (note) {
+        if (note.id === id) {
+            return note
+        }
+    });
+    listToDo.splice(noteIndex, 1);
+    return listToDo;
 
     }
 
@@ -221,20 +241,23 @@
         if (ask) {
             let editText = prompt('Enter new text', '');
             label.innerText = editText;
-            editList(idLi, editText);
+
+            // editList(idLi, );
+            let currentIndex = listToDo.findIndex(function (note) {
+                if (note.id === idLi) {
+                    return note
+                }
+            });
+            listToDo[currentIndex].text = editText;
+
         }
     }
 
-    function editList(id, editText) {
-        let currentIndex = listToDo.findIndex(function (note) {
-            if (note.id === id) {
-                return note
-            }
-        });
-        listToDo[currentIndex].text = editText;
-
-
-    }
+    // function editList(id, editText) {
+    //
+    //
+    //
+    // }
 
     function isDoneNote() {
         let liItem = this.parentNode;
@@ -258,6 +281,9 @@
         return listToDo;
     }
 
+
+
+
     function bindTaskEvent() {
         let editBtn = document.querySelector('.edit');
         let doneBtn = document.querySelector('.done');
@@ -270,10 +296,11 @@
 
     // console.log(listToDo);
     function localStr() {
-        let key = 'todo';
-        localStorage.setItem(key,JSON.stringify(listToDo));
+        localStorage.setItem('todo',JSON.stringify(listToDo));
 
     }
+
+
 
 
 
