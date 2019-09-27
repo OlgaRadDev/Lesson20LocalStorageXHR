@@ -84,38 +84,51 @@
     const getBtn = document.querySelector('.btn');
     console.log(getBtn);
 
-    function createListFilms() {
+
+    function bind(obj) {
+        let getSelect = obj.querySelector('.selectFilms');
+        getSelect.addEventListener('click' );
+
+    }
+
+   let sel = function createListFilms() {
         const $boxFilms = document.createElement('div');
         $boxFilms.classList.add('box');
         document.body.append($boxFilms);
         const $selectFilms = document.createElement('select');
-        $selectFilms.classList.add('selectFilms')
+        $selectFilms.classList.add('selectFilms');
         $boxFilms.append($selectFilms);
+        bind($boxFilms);
+
+        // $selectFilms.append(opt());
+        // console.log($selectFilms);
+       // return function () {
+       //     let getSelect = $boxFilms.querySelector('.selectFilms');
+       //     // console.log(getSelect);
+       //
+       //     return getSelect;
+       //
+       // }
+    };
+
+
+    // function createOption () {
+    //
+    // }
+    function getFilms() {
+
+        let choose = function opt(obj) {
+            const oneFilm = document.createElement('option');
+            oneFilm.innerText = obj.title;
+        };
+        return choose;
+
+
+        // console.log(oneFilm);
+        // document.body.append(oneFilm);
 
     }
-
-    function bind(obj) {
-        let getSelect = obj.querySelector('.selectFilms')
-
-    }
-    const $boxFilms = document.createElement('div');
-    $boxFilms.classList.add('box');
-    document.body.append($boxFilms);
-    const $selectFilms = document.createElement('select');
-    $selectFilms.classList.add('selectFilms');
-    $boxFilms.append($selectFilms);
-
-    function getFilms(obj) {
-
-        const oneFilm = document.createElement('option');
-        $selectFilms.append(oneFilm);
-        oneFilm.innerText = obj.title;
-
-    }
-
-
-
-
+    let u =
 
     function addOption(obj) {
 
@@ -132,9 +145,10 @@
     xhr1.onload = function () {
         // const shipName = JSON.parse(this.response.name);
         const ship = JSON.parse(this.response);
-        let b = ship.films;
-        console.log(b);
+        // let b = ship.films;
+        // console.log(b);
         addOption(ship);
+
 
         const film1 = new XMLHttpRequest();
         film1.open('get', 'https://swapi.co/api/films/6/', true);
@@ -142,8 +156,8 @@
 
         film1.onload = function () {
             const film = JSON.parse(this.response);
-            // console.log(film)
             getFilms(film);
+
         };
         const film2 = new XMLHttpRequest();
         film2.open('get', 'https://swapi.co/api/films/3/', true);
@@ -151,8 +165,10 @@
 
         film2.onload = function () {
             const film = JSON.parse(this.response);
-            // console.log(film)
+
             getFilms(film);
+
+
         };
 
         const film3 = new XMLHttpRequest();
@@ -163,7 +179,9 @@
             const film = JSON.parse(this.response);
             // console.log(film)
             getFilms(film);
-        }
+        };
+
+        getBtn.addEventListener('click', sel);
 
 
     };
