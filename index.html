@@ -76,6 +76,7 @@
     </style>
 </head>
 <body>
+
 <script>
     const $container = document.createElement('div');
     $container.classList.add('container');
@@ -107,6 +108,7 @@
         const $label = document.createElement('label');
         $label.innerText = note.text;
 
+
         $note.append($label);
         const $editBtn = document.createElement('button');
         $editBtn.classList.add('edit');
@@ -119,39 +121,38 @@
         const $deleteBtn = document.createElement('button');
         $deleteBtn.classList.add('delete');
         $deleteBtn.innerText = 'Delete';
+
         $note.append($deleteBtn);
+        if (note.isDone) {
+            console.dir(note)
+            $note.classList.add('isDone');
+            $doneBtn.setAttribute('disabled', 'disabled');
+            $editBtn.setAttribute('disabled', 'disabled');
+        }
         $toDo.append($note);
-        bindTaskEvent();
-        return $note;
+
     };
 
-    // function event() {
-        $toDo.addEventListener('click', e=>{
-            console.log(e)
+    $toDo.addEventListener('click', e => {
             if (e.target.className === 'delete') {
-                removeNote();
-
+                removeNote(e);
             } else if (e.target.className === 'edit') {
-                editNote();
+                editNote(e);
             } else if (e.target.className === 'done') {
-                isDoneNote();
+                isDoneNote(e);
             }
-            }
-        );
-    // }
+        }
+    );
 
+    const savedItems = localStorage.getItem('todo');
+    if (savedItems) {
 
-    const keyObj = 'todo';
-    const savedItems = localStorage.getItem(keyObj);
-    if (savedItems){
-        // console.log(JSON.parse(savedItems));
-        // console.log(listToDo)
         listToDo = [...JSON.parse(savedItems)];
         listToDo.forEach(renderLi);
     }
 
     function createNewNote(text) {
-       const newTask = {
+        const newTask = {
             text: checkIsEmptyStr(text),
             isDone: false,
             id: generateId()
@@ -165,28 +166,25 @@
             createNewNote($input.value);
             localStr();
             $input.value = "";
-            bindTaskEvent();
-
-
-        } else
-            return false;
+        }
     }
 
     function checkUniqueNote(valueTask) {
         if (listToDo.length) {
-            let duplicates = listToDo.some(function (note) {
+            let check = listToDo.some(function (note) {
                 return note.text === valueTask;
             });
-            return duplicates;
+            return check;
         }
     }
 
     function checkIsEmptyStr(valueTask) {
-        if (valueTask.length === 0 || !(valueTask.trim())) {
-            const msg = alert('You wrote nothing! Fill in something!!!');
-            return msg;
-        } else
-            return valueTask;
+        if (valueTask.length !== 0 || typeof valueTask !== "undefined") {
+            valueTask.trim();
+            return valueTask
+        } else {
+            return alert('You wrote nothing! Fill in something!!!');
+        }
     }
 
     function generateId() {
@@ -204,105 +202,65 @@
 
     $btnAddTask.addEventListener('click', addNote);
 
-    function removeNote() {
+    function removeNote(e) {
         let ask = confirm('Delete note?');
         if (ask) {
-            let li = this.parentNode;
-            console.dir(li);
-            let idLi = li.dataset;
-            let ul = li.parentNode;
-
-            ul.removeChild(li);
-
-
-
-            deleteNote(idLi);
+            e.target.parentNode.classList.add('del');
+            let elementLi = document.querySelector('.del');
+            elementLi.remove();
+            let idli = e.target.parentNode.dataset.id;
+            let noteIndex = listToDo.findIndex(function (note) {
+                if (note.id === idli) {
+                    return note
+                }
+            });
+            listToDo.splice(noteIndex, 1);
         }
         localStr();
     }
 
-    function deleteNote(id) {
-    let noteIndex = listToDo.findIndex(function (note) {
-        if (note.id === id) {
-            return note
-        }
-    });
-    listToDo.splice(noteIndex, 1);
-    return listToDo;
-
-    }
-
-    function editNote() {
+    function editNote(e) {
         let ask = confirm('Edit note?');
-
-        let listItem = this.parentNode;
-        let idLi = listItem.dataset.id;
-        let label = listItem.querySelector('label');
+        e.target.parentNode.classList.add('editBtn');
+        let elementLi = document.querySelector('.editBtn');
+        let label = elementLi.querySelector('label');
         if (ask) {
             let editText = prompt('Enter new text', '');
             label.innerText = editText;
+            let idLi = elementLi.dataset.id;
 
-            // editList(idLi, );
             let currentIndex = listToDo.findIndex(function (note) {
                 if (note.id === idLi) {
                     return note
                 }
             });
             listToDo[currentIndex].text = editText;
-
         }
+        localStr();
+
     }
 
-    // function editList(id, editText) {
-    //
-    //
-    //
-    // }
+    function isDoneNote(e) {
 
-    function isDoneNote() {
-        let liItem = this.parentNode;
-        let idLi = liItem.dataset.id;
-        liItem.classList.toggle('isDone');
-        setNoteStatus(idLi);
-        let child = liItem.childNodes;
-
+        e.target.parentNode.classList.add('doneBtn', 'isDone');
+        let elementLi = e.target.parentNode;
+        let idLi = e.target.parentNode.dataset.id;
+        let child = elementLi.childNodes;
         for (let i = 1; i < 3; i++) {
             child[i].setAttribute('disabled', 'disabled')
         }
-    }
-
-    function setNoteStatus(id) {
         let currentIndex = listToDo.findIndex(function (note) {
-            if (note.id === id) {
+            if (note.id === idLi) {
                 return note
             }
         });
         listToDo[currentIndex].isDone = !listToDo[currentIndex].isDone;
-        return listToDo;
+        localStr();
     }
-
-
-
-
-    function bindTaskEvent() {
-        let editBtn = document.querySelector('.edit');
-        let doneBtn = document.querySelector('.done');
-        let deleteBtn = document.querySelector('.delete');
-
-        editBtn.addEventListener('click', editNote);
-        doneBtn.addEventListener('click', isDoneNote);
-        deleteBtn.addEventListener('click', removeNote);
-    }
-
     // console.log(listToDo);
     function localStr() {
-        localStorage.setItem('todo',JSON.stringify(listToDo));
-
+        localStorage.setItem('todo', JSON.stringify(listToDo));
     }
-
-
-
-
 
 </script>
 </body>
